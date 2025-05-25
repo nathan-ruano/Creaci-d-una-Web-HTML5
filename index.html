@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | FC Barcelona</title>
+    <style>
+        /* Estilos básicos */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: #004d98;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        
+        nav {
+            background-color: #a50044;
+            padding: 1rem 0;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .logo {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: white;
+        }
+        
+        .logo img {
+            max-width: 120px;
+            height: auto;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
+            width: 100%;
+        }
+        
+        .featured-news {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .news-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .news-card h3 {
+            color: #004d98;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #004d98;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #a50044;
+        }
+        
+        footer {
+            background-color: #004d98;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: auto;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul li {
+                margin: 0 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FC BARCELONA</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="plantilla.html">PRIMER EQUIPO</a></li>
+            <li><a href="noticias.html">NOTICIAS</a></li>
+        </ul>
+    </nav>
+    
+    <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png" alt="Escudo FC Barcelona">
+    </div>
+    
+    <div class="main-content">
+        <section class="featured-news">
+            <article class="news-card">
+                <h3>Robert Lewandowski supera el centenar de goles con el Barça</h3>
+                <p>Robert Lewandowski ha cumplido ya el centenario goleador con el Barça. Y cuatro minutos más tarde ya lo había superado. Tras varios partidos con 99, el polaco ha marcado el gol número 100 (y el 101) contra el Athletic Club en San Mamés, en el último partido de la temporada. El centenar lo ha hecho en el minuto 14, tras recibir un pase de Fermín y superar a Unai Simón con una gran vaselina.</p>
+                <a href="noticias.html" class="btn">VER MAS</a>
+            </article>
+            
+            <article class="news-card">
+                <h3>La convocatoria para el duelo contra el Athletic Club</h3>
+                <p>Para conseguir el último objetivo, el técnico alemán ha confeccionado una lista de convocados en la que no están Jules Kounde, Ferran Torres y Marc Bernal. Por tanto, la última convocatoria la forman: Ter Stegen, Cubarsí, Balde, R. Araujo, I. Martinez, Gavi, Pedri, Lewandowski, Ansu Fati, Raphinha, Iñaki Peña, Pablo Torre, Christensen, Fermín, M. Casadó, Pau Víctor, Lamine Yamal, Olmo, F. De Jong, Eric, Szczęsny, H. Fort y Gerard Martín.</p>
+                <a href="noticias.html" class="btn">VER MAS</a>
+            </article>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 FC Barcelona. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

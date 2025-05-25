@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantilla del Equipo | FC Barcelona</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos base y reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Header */
+        header {
+            background-color: #004d98;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: #a50044;
+            padding: 1rem 0;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        /* Logo */
+        .logo {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: white;
+        }
+        
+        .logo img {
+            max-width: 120px;
+            height: auto;
+        }
+        
+        /* Contenedor principal */
+        .team-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .team-container h1 {
+            color: #004d98;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        /* Secciones por posición */
+        .position-section {
+            margin: 3rem 0 1rem;
+        }
+        
+        .position-title {
+            background-color: #004d98;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        /* Grid de jugadores */
+        .player-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        /* Tarjetas de jugadores */
+        .player-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .player-image {
+            height: 250px;
+            overflow: hidden;
+        }
+        
+        .player-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .player-card:hover .player-image img {
+            transform: scale(1.05);
+        }
+        
+        .player-info {
+            padding: 1.2rem;
+            text-align: center;
+        }
+        
+        .player-info h3 {
+            color: #004d98;
+            margin-bottom: 0.5rem;
+        }
+        
+        .player-info p {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        /* Filtros */
+        .position-filter {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .position-filter button {
+            background-color: #004d98;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .position-filter button:hover {
+            background-color: #003366;
+        }
+        
+        .position-filter button.active {
+            background-color: #a50044;
+        }
+        
+        /* Modal (ventana emergente) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 25px;
+            top: 15px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #a50044;
+        }
+        
+        .modal-header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-header img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #004d98;
+            margin-bottom: 15px;
+        }
+        
+        .modal-header h2 {
+            color: #004d98;
+            margin-bottom: 5px;
+        }
+        
+        .modal-header p {
+            color: #a50044;
+            font-weight: 600;
+        }
+        
+        .modal-body {
+            padding: 20px 0;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+        
+        .stat-item i {
+            color: #a50044;
+            font-size: 1.3rem;
+            width: 30px;
+            text-align: center;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #004d98;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .player-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            nav ul li {
+                margin: 0 0.8rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .player-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-header img {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FC BARCELONA</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="index.html">INICIO</a></li>
+            <li><a href="noticias.html">NOTICIAS</a></li>
+        </ul>
+    </nav>
+    
+    <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png" alt="Escudo FC Barcelona">
+    </div>
+    
+    <div class="team-container">
+        <h1>PLANTILLA ACTUAL 2024/2025</h1>
+        
+        <div class="position-filter">
+            <button onclick="filterPlayers('all')" class="active">TODOS</button>
+            <button onclick="filterPlayers('portero')">PORTEROS</button>
+            <button onclick="filterPlayers('defensa')">DEFENSAS</button>
+            <button onclick="filterPlayers('centrocampista')">CENTROCAMPISTAS</button>
+            <button onclick="filterPlayers('delantero')">DELANTEROS</button>
+        </div>
+        
+        <div id="players-container">
+            <!-- Las secciones de jugadores se insertarán aquí con JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal para estadísticas de jugadores -->
+    <div id="player-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <img id="modal-player-image" src="" alt="Jugador">
+                <h2 id="modal-player-name"></h2>
+                <p id="modal-player-position"></p>
+            </div>
+            <div class="modal-body">
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span id="modal-player-age"></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-futbol"></i>
+                        <span id="modal-player-goals"></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-tshirt"></i>
+                        <span id="modal-player-number"></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-flag"></i>
+                        <span id="modal-player-nationality"></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span id="modal-player-debut"></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-futbol"></i>
+                        <span id="modal-player-matches"></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-assistive-listening-systems"></i>
+                        <span id="modal-player-assists"></span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-euro-sign"></i>
+                        <span id="modal-player-value"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 FC Barcelona. Todos los derechos reservados.</p>
+    </footer>
+    
+    <script>
+        // Datos completos de los jugadores con estadísticas
+        const playersByPosition = {
+            portero: [
+                { 
+                    name: "Marc-André ter Stegen", 
+                    position: "portero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/marc.webp",
+                    age: 31,
+                    goals: 0,
+                    assists: 0,
+                    matches: 35,
+                    number: 1,
+                    nationality: "Alemania",
+                    debut: "2014",
+                    value: "€70M"
+                },
+                 { 
+                    name: "Wojciech Szczęsny", 
+                    position: "portero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/chesni.webp",
+                    age: 31,
+                    goals: 0,
+                    assists: 0,
+                    matches: 30,
+                    number: 25,
+                    nationality: "polonia",
+                    debut: "2009",
+                    value: "€70M"
+                },
+                { 
+                    name: "Iñaki Peña", 
+                    position: "portero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/iñaki.webp",
+                    age: 24,
+                    goals: 0,
+                    assists: 0,
+                    matches: 12,
+                    number: 13,
+                    nationality: "España",
+                    debut: "2022",
+                    value: "€10M"
+                }
+            ],
+            defensa: [
+                { 
+                    name: "Ronald Araújo", 
+                    position: "defensa", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/araujo.webp",
+                    age: 24,
+                    goals: 10,
+                    assists: 7,
+                    matches: 28,
+                    number: 4,
+                    nationality: "Uruguay",
+                    debut: "2020",
+                    value: "€70M"
+                },
+{ 
+                    name: "Pau Cubarsí", 
+                    position: "defensa", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/cubarsi.webp",
+                    age: 17,
+                    goals: 1,
+                    assists: 3,
+                    matches: 28,
+                    number: 2,
+                    nationality: "España",
+                    debut: "2023",
+                    value: "€50M"
+                },
+
+            { 
+                    name: "Eric Garcia", 
+                    position: "defensa", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/eric.webp",
+                    age: 24,
+                    goals: 6,
+                    assists: 5,
+                    matches: 28,
+                    number: 24,
+                    nationality: "España",
+                    debut: "2015",
+                    value: "€30M"
+                },
+
+{ 
+                    name: "Iñigo Martinez", 
+                    position: "defensa", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/iñigo.webp",
+                    age: 33,
+                    goals: 3,
+                    assists: 5,
+                    matches: 32,
+                    number: 5,
+                    nationality: "España",
+                    debut: "2015",
+                    value: "€20M"
+                },
+
+
+                { 
+                    name: "Jules Koundé", 
+                    position: "defensa", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/ozuna.webp",
+                    age: 25,
+                    goals: 2,
+                    assists: 4,
+                    matches: 32,
+                    number: 23,
+                    nationality: "Francia",
+                    debut: "2022",
+                    value: "€60M"
+                },
+                { 
+                    name: "Andreas Christensen", 
+                    position: "defensa", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/cristensen.webp",
+                    age: 27,
+                    goals: 1,
+                    assists: 1,
+                    matches: 25,
+                    number: 15,
+                    nationality: "Dinamarca",
+                    debut: "2022",
+                    value: "€40M"
+                },
+                { 
+                    name: "Alejandro Balde", 
+                    position: "defensa", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/balde.webp",
+                    age: 20,
+                    goals: 1,
+                    assists: 6,
+                    matches: 30,
+                    number: 3,
+                    nationality: "España",
+                    debut: "2021",
+                    value: "€50M"
+                }
+            ],
+            centrocampista: [
+                { 
+                    name: "Frenkie de Jong", 
+                    position: "centrocampista", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/dejong.webp",
+                    age: 26,
+                    goals: 4,
+                    assists: 8,
+                    matches: 34,
+                    number: 21,
+                    nationality: "Países Bajos",
+                    debut: "2019",
+                    value: "€85M"
+                },
+                { 
+                    name: "Pedri", 
+                    position: "centrocampista", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/pedri.webp",
+                    age: 21,
+                    goals: 6,
+                    assists: 7,
+                    matches: 30,
+                    number: 8,
+                    nationality: "España",
+                    debut: "2020",
+                    value: "€100M"
+                },
+                { 
+                    name: "Gavi", 
+                    position: "centrocampista", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/gavi.webp",
+                    age: 19,
+                    goals: 3,
+                    assists: 5,
+                    matches: 29,
+                    number: 6,
+                    nationality: "España",
+                    debut: "2021",
+                    value: "€90M"
+                },
+{ 
+                    name: "Pablo Torre", 
+                    position: "centrocampista", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/pablo torre.webp",
+                    age: 19,
+                    goals: 5,
+                    assists: 5,
+                    matches: 29,
+                    number: 14,
+                    nationality: "España",
+                    debut: "2021",
+                    value: "€30M"
+                },
+
+                { 
+                    name: "Dani Olmo", 
+                    position: "centrocampista", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/olmo.webp",
+                    age: 25,
+                    goals: 11,
+                    assists: 5,
+                    matches: 29,
+                    number: 20,
+                    nationality: "España",
+                    debut: "2021",
+                    value: "€90M"
+                },
+{ 
+                    name: "Marc Casadó", 
+                    position: "centrocampista", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/divorciado.webp",
+                    age: 20,
+                    goals: 3,
+                    assists: 5,
+                    matches: 29,
+                    number: 17,
+                    nationality: "España",
+                    debut: "2024",
+                    value: "€40M"
+                },
+                { 
+                    name: "Fermin López", 
+                    position: "centrocampista", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/fermin.webp",
+                    age: 22,
+                    goals: 19,
+                    assists: 9,
+                    matches: 31,
+                    number: 16,
+                    nationality: "España",
+                    debut: "2023",
+                    value: "€50M"
+                }
+            ],
+            delantero: [
+                { 
+                    name: "Robert Lewandowski", 
+                    position: "delantero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/robert.webp",
+                    age: 35,
+                    goals: 101,
+                    assists: 20,
+                    matches: 36,
+                    number: 9,
+                    nationality: "Polonia",
+                    debut: "2012",
+                    value: "€30M"
+                },
+                { 
+                    name: "Raphinha", 
+                    position: "delantero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/raphinha.webp",
+                    age: 27,
+                    goals: 54,
+                    assists: 45,
+                    matches: 33,
+                    number: 11,
+                    nationality: "Brasil",
+                    debut: "2018",
+                    value: "€50M"
+                },
+                { 
+                    name: "Ferran Torres", 
+                    position: "delantero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/ferran.webp",
+                    age: 24,
+                    goals: 44,
+                    assists: 19,
+                    matches: 30,
+                    number: 7,
+                    nationality: "España",
+                    debut: "2022",
+                    value: "€35M"
+                },
+                { 
+                    name: "Ansu Fati", 
+                    position: "delantero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/ansu.webp",
+                    age: 22,
+                    goals: 29,
+                    assists: 6,
+                    matches: 30,
+                    number: 10,
+                    nationality: "España",
+                    debut: "2021",
+                    value: "€35M"
+                },
+                { 
+                    name: "Pau Víctor", 
+                    position: "delantero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/pau.webp",
+                    age: 24,
+                    goals: 2,
+                    assists: 1,
+                    matches: 5,
+                    number: 18,
+                    nationality: "España",
+                    debut: "2024",
+                    value: "€35M"
+                },
+                { 
+                    name: "Lamine Yamal", 
+                    position: "delantero", 
+                    image: "/home/usuario/Creaci-d-una-Web-HTML5/images/lamine.webp",
+                    age: 17,
+                    goals: 25,
+                    assists: 28,
+                    matches: 28,
+                    number: 19,
+                    nationality: "España",
+                    debut: "2023",
+                    value: "€120M"
+                }
+            ]
+        };
+
+        // Elementos del modal
+        const modal = document.getElementById('player-modal');
+        const modalName = document.getElementById('modal-player-name');
+        const modalPosition = document.getElementById('modal-player-position');
+        const modalImage = document.getElementById('modal-player-image');
+        const modalAge = document.getElementById('modal-player-age');
+        const modalGoals = document.getElementById('modal-player-goals');
+        const modalAssists = document.getElementById('modal-player-assists');
+        const modalMatches = document.getElementById('modal-player-matches');
+        const modalNumber = document.getElementById('modal-player-number');
+        const modalNationality = document.getElementById('modal-player-nationality');
+        const modalDebut = document.getElementById('modal-player-debut');
+        const modalValue = document.getElementById('modal-player-value');
+        const closeModal = document.querySelector('.close-modal');
+
+        // Función para mostrar jugadores agrupados por posición con títulos
+        function displayPlayersGrouped() {
+            const container = document.getElementById('players-container');
+            container.innerHTML = '';
+            
+            for (const [position, players] of Object.entries(playersByPosition)) {
+                const positionName = getPositionName(position);
+                
+                const section = document.createElement('div');
+                section.className = 'position-section';
+                section.innerHTML = `
+                    <h2 class="position-title">${positionName}</h2>
+                    <div class="player-grid" id="grid-${position}"></div>
+                `;
+                
+                container.appendChild(section);
+                
+                const grid = document.getElementById(`grid-${position}`);
+                players.forEach(player => {
+                    const playerCard = document.createElement('div');
+                    playerCard.className = 'player-card';
+                    playerCard.dataset.position = player.position;
+                    playerCard.innerHTML = `
+                        <div class="player-image">
+                            <img src="${player.image}" alt="${player.name}" loading="lazy">
+                        </div>
+                        <div class="player-info">
+                            <h3>${player.name}</h3>
+                            <p>${player.position.toUpperCase()}</p>
+                        </div>
+                    `;
+                    
+                    playerCard.addEventListener('click', () => showPlayerModal(player));
+                    grid.appendChild(playerCard);
+                });
+            }
+        }
+        
+        // Función para mostrar jugadores filtrados por posición
+        function displayPlayersFiltered(position) {
+            const container = document.getElementById('players-container');
+            container.innerHTML = '';
+            
+            if (position === 'all') {
+                displayPlayersGrouped();
+                return;
+            }
+            
+            const players = playersByPosition[position];
+            const positionName = getPositionName(position);
+            
+            container.innerHTML = `
+                <div class="position-section">
+                    <h2 class="position-title">${positionName}</h2>
+                    <div class="player-grid" id="grid-filtered"></div>
+                </div>
+            `;
+            
+            const grid = document.getElementById('grid-filtered');
+            players.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'player-card';
+                playerCard.dataset.position = player.position;
+                playerCard.innerHTML = `
+                    <div class="player-image">
+                        <img src="${player.image}" alt="${player.name}" loading="lazy">
+                    </div>
+                    <div class="player-info">
+                        <h3>${player.name}</h3>
+                        <p>${player.position.toUpperCase()}</p>
+                    </div>
+                `;
+                
+                playerCard.addEventListener('click', () => showPlayerModal(player));
+                grid.appendChild(playerCard);
+            });
+        }
+        
+        // Función para mostrar el modal con las estadísticas del jugador
+        function showPlayerModal(player) {
+            modalName.textContent = player.name;
+            modalPosition.textContent = player.position.toUpperCase();
+            modalImage.src = player.image;
+            modalAge.textContent = `${player.age} años`;
+            modalGoals.textContent = `${player.goals} goles`;
+            modalAssists.textContent = `${player.assists} asistencias`;
+            modalMatches.textContent = `${player.matches} partidos jugados`;
+            modalNumber.textContent = `Dorsal ${player.number}`;
+            modalNationality.textContent = player.nationality;
+            modalDebut.textContent = `Debut: ${player.debut}`;
+            modalValue.textContent = `Valor de mercado: ${player.value}`;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Función para cerrar el modal
+        function closeModalFunc() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Función para obtener el nombre completo de la posición
+        function getPositionName(positionKey) {
+            const names = {
+                portero: 'PORTEROS',
+                defensa: 'DEFENSAS',
+                centrocampista: 'CENTROCAMPISTAS',
+                delantero: 'DELANTEROS'
+            };
+            return names[positionKey] || positionKey.toUpperCase();
+        }
+        
+        // Función para filtrar jugadores por posición
+        function filterPlayers(position) {
+            document.querySelectorAll('.position-filter button').forEach(btn => {
+                btn.classList.toggle('active', 
+                    (position === 'all' && btn.textContent === 'TODOS') || 
+                    btn.textContent === getPositionName(position)
+                );
+            });
+            
+            if (position === 'all') {
+                displayPlayersGrouped();
+            } else {
+                displayPlayersFiltered(position);
+            }
+        }
+        
+        // Event listeners
+        closeModal.addEventListener('click', closeModalFunc);
+        
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModalFunc();
+            }
+        });
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            displayPlayersGrouped();
+            
+            // Configurar botones de filtro
+            const filterButtons = document.querySelectorAll('.position-filter button');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+                    filterPlayers(filter);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

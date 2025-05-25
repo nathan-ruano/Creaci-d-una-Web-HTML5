@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias | FC Barcelona</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* Header */
+        header {
+            background-color: #004d98;
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+        
+        /* Navegación */
+        nav {
+            background-color: #a50044;
+            padding: 1rem 0;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav ul li {
+            margin: 0 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        nav ul li a.active {
+            background-color: rgba(255,255,255,0.3);
+        }
+        
+        /* Logo */
+        .logo {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: white;
+        }
+        
+        .logo img {
+            max-width: 120px;
+            height: auto;
+        }
+        
+        /* Contenedor principal de noticias */
+        .news-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        .news-container h1 {
+            color: #004d98;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        /* Grid de noticias */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Tarjetas de noticias */
+        .news-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .news-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .news-card:hover .news-image img {
+            transform: scale(1.05);
+        }
+        
+        .news-content {
+            padding: 1.5rem;
+        }
+        
+        .news-date {
+            color: #a50044;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .news-title {
+            color: #004d98;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .news-excerpt {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        /* Modal (ventana emergente) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            animation: fadeIn 0.3s;
+            overflow-y: auto;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 3% auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 800px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 25px;
+            top: 15px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: #a50044;
+        }
+        
+        .modal-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 {
+            color: #004d98;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .modal-date {
+            color: #a50044;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .modal-body {
+            line-height: 1.6;
+        }
+        
+        .modal-body p {
+            margin-bottom: 15px;
+        }
+        
+        .modal-body h4 {
+            color: #004d98;
+            margin: 20px 0 10px 0;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #004d98;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            nav ul li {
+                margin: 0 0.8rem;
+            }
+            
+            .modal-content {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>FC BARCELONA</h1>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="index.html">INICIO</a></li>
+            <li><a href="plantilla.html">PRIMER EQUIPO</a></li>
+        </ul>
+    </nav>
+    
+    <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png" alt="Escudo FC Barcelona">
+    </div>
+    
+    <div class="news-container">
+        <h1>ULTIMAS NOTICIAS</h1>
+        
+        <div class="news-grid" id="news-grid">
+            <!-- Noticia 1 - Lewandowski -->
+            <div class="news-card" data-news-id="1">
+                <div class="news-image">
+                    <img src="images/partido.jpg" alt="Lewandowski 100 goles">
+                </div>
+                <div class="news-content">
+                    <p class="news-date">25 MAYO 2025</p>
+                    <h3 class="news-title">Lewandowski alcanza los 100 goles con el Barça</h3>
+                    <p class="news-excerpt">El delantero polaco marca su gol 100 y 101 en el último partido de la temporada contra el Athletic Club.</p>
+                </div>
+            </div>
+            
+            <!-- Noticia 2 - Convocatoria -->
+            <div class="news-card" data-news-id="2">
+                <div class="news-image">
+                    <img src="/home/usuario/Creaci-d-una-Web-HTML5/images/convo.jpg" alt="Convocatoria Athletic">
+                </div>
+                <div class="news-content">
+                    <p class="news-date">22 MAYO 2025</p>
+                    <h3 class="news-title">Última convocatoria de la temporada</h3>
+                    <p class="news-excerpt">Hansi Flick anuncia la lista para el partido contra el Athletic en San Mamés.</p>
+                </div>
+            </div>
+            
+            <!-- Noticia 3 - La Masia -->
+            <div class="news-card" data-news-id="3">
+                <div class="news-image">
+                    <img src="/home/usuario/Creaci-d-una-Web-HTML5/images/lamasia.jpg" alt="La Masia">
+                </div>
+                <div class="news-content">
+                    <p class="news-date">25 mayo 2025</p>
+                    <h3 class="news-title">La Masia celebra 40 años de historia </h3>
+                    <p class="news-excerpt">El club conmemora las cuatro décadas de su plantel con una exposición especial.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para noticias completas -->
+    <div id="news-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <img id="modal-news-image" src="" alt="Imagen noticia">
+                <h2 id="modal-news-title"></h2>
+                <p id="modal-news-date" class="modal-date"></p>
+            </div>
+            <div class="modal-body" id="modal-news-body">
+                <!-- Contenido de la noticia se insertará aquí -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 FC Barcelona. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Datos completos de las noticias actualizadas
+        const newsData = {
+            1: {
+                title: "Lewandowski alcanza los 100 goles con el Barça",
+                date: "25 MAYO 2025",
+                image: "images/partido.jpg",
+                content: `
+                    <p>Robert Lewandowski ha cumplido ya el centenario goleador con el Barça. Y cuatro minutos más tarde ya lo había superado. Tras varios partidos con 99, el polaco ha marcado el gol número 100 (y el 101) contra el Athletic Club en San Mamés, en el último partido de la temporada.</p>
+                    
+                    <p>El centenar lo ha hecho en el minuto 14, tras recibir un pase de Fermín y superar a Unai Simón con una gran vaselina. Con este tanto, el 26º que marcaba en la Liga, el goleador de este Barça ha entrado en el club de los que han celebrado 100 veces un gol de azulgrana.</p>
+                    
+                    <p>Datos destacados:</p>
+                    <ul>
+                        <li>100º gol en el minuto 14 con vaselina</li>
+                        <li>101º gol solo 4 minutos después</li>
+                        <li>Gol número 100 del Barça en esta Liga</li>
+                        <li>Gol número 100 del Barça en 2025 (todas competiciones)</li>
+                    </ul>
+                    
+                    <p>En su tercera temporada en el Barça, y con 36 años, ha aumentado su rendimiento goleador:
+                    <ul>
+                        <li>1ª temporada: 33 goles</li>
+                        <li>2ª temporada: 26 goles</li>
+                        <li>3ª temporada: 42 goles</li>
+                    </ul>
+                    
+                    <p>Sus goles han sido imprescindibles para ganar los tres títulos domésticos esta temporada: La Liga, Copa del Rey y Supercopa de España.</p>
+                `
+            },
+            2: {
+                title: "Última convocatoria de la temporada",
+                date: "22 MAYO 2025",
+                image: "/home/usuario/Creaci-d-una-Web-HTML5/images/convo.jpg",
+                content: `
+                    <p>El FC Barcelona afronta el último compromiso del curso lejos de casa. Los hombres de Hansi Flick viajan hasta Bilbao para enfrentarse al Athletic Club en San Mamés en un duelo que pondrá la guinda a una temporada brillante.</p>
+                    
+                    <p>Aunque ambos equipos no se juegan nada, los tres puntos supondrían un final redondo para la temporada 2024/25. Para conseguir este último objetivo, el técnico alemán ha confeccionado la siguiente lista de convocados:</p>
+                    
+                    <h4>Porteros:</h4>
+                    <ul>
+                        <li>Ter Stegen</li>
+                        <li>Iñaki Peña</li>
+                        <li>H. Fort</li>
+                    </ul>
+                    
+                    <h4>Defensas:</h4>
+                    <ul>
+                        <li>Ronald Araújo</li>
+                        <li>Pau Cubarsí</li>
+                        <li>Alejandro Balde</li>
+                        <li>Iñigo Martinez</li>
+                        <li>Andreas Christensen</li>
+                        <li>Eric García</li>
+                    </ul>
+                    
+                    <h4>Centrocampistas:</h4>
+                    <ul>
+                        <li>Gavi</li>
+                        <li>Pedri</li>
+                        <li>Frenkie de Jong</li>
+                        <li>Fermín López</li>
+                        <li>Pablo Torre</li>
+                        <li>Marc Casadó</li>
+                        <li>Dani Olmo</li>
+                    </ul>
+                    
+                    <h4>Delanteros:</h4>
+                    <ul>
+                        <li>Robert Lewandowski</li>
+                        <li>Raphinha</li>
+                        <li>Lamine Yamal</li>
+                        <li>Ansu Fati</li>
+                        <li>Pau Víctor</li>
+                        <li>Gerard Martín</li>
+                    </ul>
+                    
+                    <p>Bajas notables: Jules Koundé, Ferran Torres y Marc Bernal no han sido incluidos en esta última convocatoria del curso.</p>
+                    
+                    <p>El partido tendrá lugar este domingo a las 21:00h en San Mamés, con arbitraje de Jesús Gil Manzano.</p>
+                `
+            },
+            3: {
+                title: "La Masia celebra 40 años de historia",
+                date: "25 mayo 2025",
+                image: "/home/usuario/Creaci-d-una-Web-HTML5/images/lamasia.jpg",
+                content: `
+                    <p>El FC Barcelona conmemora este mes los 40 años de la inauguración de La Masía como residencia para los jóvenes futbolistas del plantel, un proyecto que ha dado algunos de los mejores jugadores de la historia del club</p>
+                    
+                    <p>Para celebrarlo, se ha organizado una exposición especial en el Camp Nou que repasa la historia de esta institución a través de fotografías, objetos y testigos de sus protagonistas. La exposición estará abierta al público durante todo el mes de noviembre.</p>
+                    
+                    <p>Algunos de los exalumnos más destacados que han pasado por La Masía:</p>
+                    <ul>
+                        <li>Lionel Messi (debut con el primer equipo el 2004)</li>
+                        <li>Xavi Hernández (1998)</li>
+                        <li>Andrés Iniesta (2002)</li>
+                        <li>Pep Guardiola (1990)</li>
+                        <li>Carles Puyol (1999)</li>
+                    </ul>
+                    
+                    <p>El presidente Joan Laporta destacó durante el acto inaugural: "La Masía no es solo la casa de nuestros jóvenes jugadores, sino el corazón de nuestra filosofía. Aquí se han formado no solo grandes futbolistas, sino también grandes personas".</p>
+                `
+            }
+        };
+
+        // Elementos del DOM
+        const modal = document.getElementById('news-modal');
+        const modalTitle = document.getElementById('modal-news-title');
+        const modalDate = document.getElementById('modal-news-date');
+        const modalImage = document.getElementById('modal-news-image');
+        const modalBody = document.getElementById('modal-news-body');
+        const closeBtn = document.querySelector('.close-modal');
+        const newsCards = document.querySelectorAll('.news-card');
+
+        // Función para abrir el modal con la noticia completa
+        function openNewsModal(newsId) {
+            const news = newsData[newsId];
+            
+            modalTitle.textContent = news.title;
+            modalDate.textContent = news.date;
+            modalImage.src = news.image;
+            modalImage.alt = news.title;
+            modalBody.innerHTML = news.content;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Función para cerrar el modal
+        function closeNewsModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners
+        newsCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const newsId = this.getAttribute('data-news-id');
+                openNewsModal(newsId);
+            });
+        });
+
+        closeBtn.addEventListener('click', closeNewsModal);
+
+        window.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeNewsModal();
+            }
+        });
+
+        // Cerrar con tecla ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && modal.style.display === 'block') {
+                closeNewsModal();
+            }
+        });
+    </script>
+</body>
+</html>
