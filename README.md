@@ -20,8 +20,8 @@ Modales con fade-in (0.3s) y cierre suave
 **Diseño Adaptativo**
 Grid que pasa de 3 columnas (desktop) a 1 (móvil)
 
-**Decisions de disseny i raonaments.**
+## Decisions de disseny i raonaments.
 Al principio no sabia como hacerlo pero decidi uysar una estructura que ya sabia como hacer gracias al ejercicio del zoo asi que dedici seguir su misma estructura de cuadrados redondeados con imagenes dentro, al mismo tiempo me inspire de la pagina oficial del FC barcelona para el tema de las noticias.
 
-**Decisions de disseny i raonaments.**
-Captures de pantalla del resultat final.
+## Captures de pantalla del resultat final.
+
