@@ -25,3 +25,40 @@ Al principio no sabia como hacerlo pero decidi uysar una estructura que ya sabia
 
 ## Captures de pantalla del resultat final.
 
+Menu inicial
+
+![Foto](1.png)
+
+Plantilla actual porteros
+
+![Foto](2.png)
+
+Defensas
+
+![Foto](3.png)
+
+Mediocentros
+
+![Foto](4.png)
+
+Delanteros
+
+![Foto](5.png)
+
+CUdno se pulsa en un jugador sale sus estadisticas
+
+![Foto](6.png)
+
+Tambien se puede filtrar para que unicamente aparezca una categoria
+
+![Foto](7.png)
+
+Seccion de noticias
+
+![Foto](8.png)
+
+Se puede clikar en la noticia para verla completa
+
+![Foto](9.png)
+
+
